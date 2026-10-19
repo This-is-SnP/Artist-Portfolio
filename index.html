@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artist Portfolio — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@400;500;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d0d; --ink:#f5f5f5; --muted:#8f8f93; --accent:#ffffff; --line:rgba(255,255,255,0.12);
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'DM Sans',system-ui,sans-serif; --deva:'Tiro Devanagari Hindi',serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--sans)}
+body{min-height:100vh;overflow-x:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+
+/* ---------- STAGE ---------- */
+.stage{position:relative;width:100%;height:100svh;min-height:640px;overflow:hidden}
+.cross{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.cross line{stroke:var(--line);stroke-width:1.2;vector-effect:non-scaling-stroke}
+
+.region{position:absolute;inset:0;cursor:pointer;outline:none;animation:fade .9s ease both}
+.region::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .35s;
+  background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.08),transparent 70%)}
+.region:hover::before,.region:focus-visible::before{opacity:1}
+.region.top   {clip-path:polygon(0 0,100% 0,50% 50%);background:radial-gradient(circle at 50% 50%,#2a2a2a,#0d0d0d 85%)}
+.region.right {clip-path:polygon(100% 0,100% 100%,50% 50%);background:radial-gradient(circle at 50% 50%,#202020,#0d0d0d 85%);animation-delay:.1s}
+.region.bottom{clip-path:polygon(0 100%,100% 100%,50% 50%);background:radial-gradient(circle at 50% 50%,#282828,#0d0d0d 85%);animation-delay:.2s}
+.region.left  {clip-path:polygon(0 0,0 100%,50% 50%);background:radial-gradient(circle at 50% 50%,#1e1e1e,#0d0d0d 85%);animation-delay:.3s}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+
+.r-content{position:absolute;inset:0;pointer-events:none}
+.r-content > *{position:absolute}
+
+h1,h2,h3{font-family:var(--serif);font-weight:600}
+.big{font-family:var(--serif);font-weight:700;letter-spacing:.14em;line-height:1}
+.chip{font-size:.78rem;letter-spacing:.04em;color:var(--muted)}
+.chip b{color:var(--accent);font-weight:700}
+.more{display:inline-flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--muted);border:1px solid var(--line);
+  border-radius:99px;padding:.2rem .7rem .2rem .4rem;transition:.25s}
+.more i{width:1.1rem;height:1.1rem;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center;font:italic 700 .7rem var(--serif)}
+.region:hover .more{color:var(--accent);border-color:var(--accent)}
+
+/* hub / profile photo */
+.hub{position:absolute;left:50%;top:50%;width:clamp(120px,15vw,210px);aspect-ratio:1;transform:translate(-50%,-50%);z-index:6;border-radius:50%}
+.avatar{width:100%;height:100%;border:2px solid var(--ink);background:
+  radial-gradient(circle at 35% 30%,#2c2c2c,#0d0d0d);display:grid;place-items:center;
+  box-shadow:0 0 0 8px rgba(13,13,13,.85),0 0 60px rgba(255,255,255,.08)}
+#avatar{border-radius:50%;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover;display:none}
+.avatar.has-img img{display:block}
+.avatar.has-img span{display:none}
+.avatar span{font-family:var(--serif);font-size:clamp(1.4rem,2.6vw,2.4rem);letter-spacing:.2em;color:var(--muted)}
+.hub::after{content:'';position:absolute;inset:-14px;border-radius:50%;border:1px dashed rgba(255,255,255,.25);animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.hint{position:absolute;left:2.2%;bottom:2.5%;z-index:7;font-size:.72rem;color:var(--muted);letter-spacing:.08em;pointer-events:none}
+
+/* ---------- DESKTOP POSITIONING ---------- */
+@media (min-width:900px){
+  /* top */
+  .top .t-ach{left:17%;top:5%;display:flex;flex-direction:column;gap:.35rem}
+  .top .t-link{right:17%;top:5%;text-align:right;font-size:.8rem;color:var(--muted);max-width:13vw}
+  .top .t-link b{display:block;color:var(--accent);font-family:var(--serif);font-size:1.1rem;margin-bottom:.1rem}
+  .top .t-title{left:50%;top:9.5%;transform:translateX(-50%);text-align:center;width:60%}
+  .top .t-title h2{font-size:clamp(2.2rem,6.2vw,6rem);letter-spacing:.16em;font-weight:700;line-height:1}
+  .top .t-title p{font-size:clamp(.72rem,1vw,.95rem);color:var(--muted);margin:0 0 .7rem}
+  .top .t-more{left:50%;top:27%;transform:translateX(-50%)}
+  /* left */
+  .left .l-note{left:4%;top:50%;transform:translateY(-50%);width:22%}
+  .left .l-note h3{font-size:clamp(1.3rem,2.6vw,2.6rem);font-style:italic;font-weight:400;line-height:1.15}
+  .left .l-note small{display:block;margin-top:1rem;color:var(--accent);letter-spacing:.12em;font-size:.72rem;text-transform:uppercase}
+  /* right */
+  .right .r-sys{right:3.5%;top:50%;transform:translateY(-50%);width:29%}
+  .right .r-sys h2{font-size:clamp(1.1rem,2.1vw,2.1rem);letter-spacing:.12em;line-height:1.1;margin-bottom:.8rem;font-weight:700;text-transform:uppercase}
+  .right .cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem;font-size:clamp(.7rem,.9vw,.9rem);color:var(--muted)}
+  .right .cols li{list-style:none;padding:.15rem 0}
+  .right .cols li::before{content:'– ';color:var(--accent)}
+  .right .r-more{margin-top:1rem}
+  /* bottom */
+  .bottom .b-name{left:50%;top:67%;transform:translateX(-50%);display:flex;align-items:center;gap:.7rem;white-space:nowrap}
+  .bottom .b-name h2{font-size:2rem;letter-spacing:.12em;font-weight:700}
+  .bottom .b-sub{left:50%;top:75.5%;transform:translateX(-50%);font-size:.72rem;color:var(--muted);letter-spacing:.1em}
+  .bottom .b-list{left:50%;top:82%;transform:translateX(-50%);display:grid;grid-template-columns:1fr 1fr;gap:.2rem 3rem;font-size:clamp(.72rem,.95vw,.95rem);color:var(--muted)}
+  .bottom .b-list li{list-style:none}
+  .bottom .b-list li::before{content:'– ';color:var(--accent)}
+  .bottom .b-list a{color:inherit;text-decoration:none}
+  .bottom .b-list a:hover{color:var(--ink);text-decoration:underline}
+  .bottom .b-more{right:19%;bottom:4%}
+}
+
+/* ---------- MOBILE: stacked ---------- */
+@media (max-width:899px){
+  .stage{height:auto;padding:2rem 1rem 4rem;display:flex;flex-direction:column;gap:1rem}
+  .cross,.hint{display:none}
+  .hub{position:relative;left:auto;top:auto;transform:none;margin:1rem auto 1.5rem;width:150px;order:-1}
+  .region{position:relative;inset:auto;clip-path:none!important;border-radius:18px;border:1px solid var(--line);padding:1.4rem}
+  .r-content{position:static}
+  .r-content > *{position:static;margin-bottom:.9rem}
+  .big,.region h2{font-size:1.8rem}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem;color:var(--muted);font-size:.85rem}
+  .b-list{display:grid;gap:.2rem;color:var(--muted);font-size:.9rem}
+  li{list-style:none}
+  .t-ach{display:flex;flex-direction:column;gap:.3rem}
+  .t-link{color:var(--muted);font-size:.85rem}
+  .b-name{display:flex;align-items:center;gap:.6rem}
+}
+
+.badge{width:clamp(1.3rem,2vw,2rem);height:clamp(1.3rem,2vw,2rem);flex:none}
+
+/* ---------- MODAL ---------- */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);display:none;place-items:center;padding:1rem}
+.modal.open{display:grid;animation:fade .25s ease}
+.panel{position:relative;width:min(940px,100%);max-height:90vh;overflow:auto;background:#141414;border:1px solid var(--line);border-radius:20px;padding:2.2rem;animation:rise .35s ease}
+@keyframes rise{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+.x{position:absolute;right:1rem;top:1rem;width:2.4rem;height:2.4rem;border-radius:50%;border:1px solid var(--line);background:none;font-size:1.2rem}
+.x:hover{border-color:var(--accent);color:var(--accent)}
+.eyebrow{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+.panel h2{font-size:clamp(1.8rem,4vw,3rem);margin-bottom:.4rem}
+.panel .lead{color:var(--muted);margin-bottom:1.6rem;max-width:60ch}
+.panel p{line-height:1.7;color:#e0e0e0;margin-bottom:1rem;max-width:68ch}
+.tool-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;width:100%;max-width:1100px;margin:0 auto}
+@media (max-width:700px){.tool-cards{grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}}
+.tool-card{display:flex;flex:1;min-width:0;flex-direction:column;background:#16120e;border:1px solid #28221b;border-radius:16px;padding:1rem}
+.card-media{width:100%;aspect-ratio:16 / 9;overflow:hidden;border:1px solid #28221b;border-radius:6px;background:#0e0c0a}
+.card-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease}
+.card-media:hover img{transform:scale(1.15)}
+.tool-card-content{padding:.9rem .25rem .25rem}
+.tool-card h2{font-size:clamp(1.8rem,4vw,2.4rem);margin-bottom:.45rem}
+.tool-card .card-title-link{color:#ffffff;text-decoration:none;transition:color .2s ease}
+.tool-card .card-title-link:hover{color:#d8d8d8;text-decoration:underline}
+.tool-card .card-title-link:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.tool-card p{line-height:1.6;color:var(--muted);margin:0;max-width:none}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:1rem 0 1.6rem}
+.card{border:1px solid var(--line);border-radius:14px;padding:1.1rem;background:rgba(255,255,255,.02);text-decoration:none;color:inherit;display:block;transition:.25s}
+a.card:hover,.card.hover:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card h4{font-family:var(--serif);font-size:1.3rem;margin-bottom:.25rem}
+.card small{color:var(--muted)}
+.stat{font-family:var(--serif);font-size:3rem;color:var(--accent);line-height:1}
+.vid{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:linear-gradient(135deg,#242424,#121212);display:grid;place-items:center;margin-bottom:.6rem;border:1px solid var(--line)}
+.video-card .vid{border-radius:6px}
+.vid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease}
+.vid::after{content:'▶';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:2.8rem;height:2.8rem;border:1px solid rgba(255,255,255,.65);border-radius:50%;background:rgba(13,13,13,.72);color:var(--ink);display:grid;place-items:center;padding-left:.15rem;font-size:1rem;transition:background .25s ease,transform .25s ease}
+a.video-card:hover .vid img{transform:scale(1.15)}
+a.video-card:hover .vid::after{background:rgba(13,13,13,.9);transform:translate(-50%,-50%) scale(1.08)}
+.video-card h4{color:#fff;transition:color .2s ease}
+.video-card:hover h4{color:#d8d8d8}
+h3.sec{font-size:1.5rem;margin:1.4rem 0 .2rem}
+
+details{border:1px solid var(--line);border-radius:12px;padding:.8rem 1rem;margin:.5rem 0}
+summary{cursor:pointer;font-family:var(--serif);font-size:1.15rem}
+details p{margin:.7rem 0 0;font-size:.9rem;font-family:ui-monospace,monospace;color:var(--muted)}
+.pipeline-scroll-box{max-height:7.5em;overflow-y:auto;padding-right:8px;scrollbar-color:#3a3228 #1e1915;scrollbar-width:thin}
+.pipeline-scroll-box::-webkit-scrollbar{width:8px}
+.pipeline-scroll-box::-webkit-scrollbar-track{background:#1e1915}
+.pipeline-scroll-box::-webkit-scrollbar-thumb{background:#3a3228;border-radius:4px}
+.pipeline-scroll-box p{margin:.7rem 0 0;font-size:.9rem;font-family:ui-monospace,monospace;color:var(--muted);max-width:none}
+.note{font-size:.75rem;color:var(--muted);margin-top:1.2rem}
+</style>
+</head>
+<body>
+
+<main class="stage">
+  <!-- diagonal cross -->
+  <svg class="cross" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <line x1="0" y1="0" x2="100" y2="100"/><line x1="100" y1="0" x2="0" y2="100"/>
+  </svg>
+
+  <!-- TOP: Visharad -->
+  <section class="region top" data-open="visharad" role="button" tabindex="0" aria-label="Open Visharad and achievements">
+    <div class="r-content">
+      <div class="t-ach">
+        <span class="chip"><b>4×</b> Zonals — 1st</span>
+        <span class="chip"><b>4×</b> District — 1st</span>
+        <span class="chip"><b>1×</b> State — 2nd</span>
+      </div>
+      <div class="t-title">
+        <p>from Gandharva Mahavidyalaya · 2025</p>
+        <h2>VISHARAD</h2>
+      </div>
+      <div class="t-link"><b>Videos &amp; performances</b>watch the stage work →</div>
+      <div class="t-more"><span class="more"><i>i</i>more</span></div>
+    </div>
+  </section>
+
+  <!-- LEFT: personal note -->
+  <section class="region left" data-open="note" role="button" tabindex="0" aria-label="Open personal note">
+    <div class="r-content">
+      <div class="l-note">
+        <h3>A personal note on music &amp; its potential future</h3>
+        <small>Read the note →</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT: computational music systems -->
+  <section class="region right" data-open="computational" role="button" tabindex="0" aria-label="Open computational music systems">
+    <div class="r-content">
+      <div class="r-sys">
+        <h2>Computational Music Systems</h2>
+        <div class="cols">
+          <ul><li>Taan generator</li><li>Swar lekhan</li><li>Swarlipi</li></ul>
+          <ul><li>Research paper</li><li>Laykari-Taal Congruence</li><li>&amp; many more...</li></ul>
+        </div>
+        <div class="r-more"><span class="more"><i>i</i>more</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM: artist -->
+  <section class="region bottom" data-open="artist" role="button" tabindex="0" aria-label="Open artist profile">
+    <div class="r-content">
+      <div class="b-name">
+        <h2 class="big">The Serenadic Souls</h2>
+        <svg class="badge" viewBox="0 0 24 24" aria-label="Verified"><rect x="4" y="4" width="16" height="16" rx="3" fill="#e8a33d"/><rect x="4" y="4" width="16" height="16" rx="3" fill="#e8a33d" transform="rotate(45 12 12)"/><path d="M8 12.4l2.7 2.6L16 9.6" fill="none" stroke="#1a1208" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="b-sub">SnP: Sing it Feel it Share it</div>
+      <ul class="b-list">
+        <li><a href="https://open.spotify.com/artist/6gAXGZr1uMxtdTs2AmFkGK" target="_blank" rel="noopener noreferrer">Spotify</a></li><li>Production pipelines (prompts)</li>
+        <li><a href="https://www.instagram.com/this_is__snp/" target="_blank" rel="noopener noreferrer">Instagram</a></li><li><a href="https://audiomack.com/musicshreynandanprasad3" target="_blank" rel="noopener noreferrer">Side artist profile</a></li>
+      </ul>
+      <div class="b-more"><span class="more"><i>i</i>more</span></div>
+    </div>
+  </section>
+
+  <!-- CENTER: profile photo -->
+  <div class="hub" title="Profile photo">
+    <div class="avatar has-img" id="avatar">
+      <img src="Profile.jpeg" alt="Profile photo" id="avatarImg"><span>PDP</span>
+    </div>
+  </div>
+
+  <div class="hint">click any section to explore</div>
+</main>
+
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="panel" role="dialog" aria-modal="true">
+    <button class="x" id="close" aria-label="Close">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const $ = (s, r=document) => r.querySelector(s);
+const modal = $('#modal'), mbody = $('#modal-body');
+
+/* ---------- VIEWS ---------- */
+const VIEWS = {
+visharad: () => `
+  <p class="eyebrow">Classical training</p>
+  <h2>Visharad <span style="font-family:var(--deva);color:var(--accent);font-size:.7em">विशारद</span></h2>
+  <p class="lead">Gandharva Mahavidyalaya · completed 2025</p>
+  <div class="grid">
+    <div class="card"><div class="stat">4×</div><h4>Zonal</h4><small>1st place</small></div>
+    <div class="card"><div class="stat">4×</div><h4>District</h4><small>1st place</small></div>
+    <div class="card"><div class="stat">1×</div><h4>State</h4><small>2nd place</small></div>
+  </div>
+  <h3 class="sec">Videos &amp; performances</h3>
+  <div class="grid">
+    <a class="card video-card" href="https://youtu.be/YGv2l3iUGLA" target="_blank" rel="noopener noreferrer">
+      <div class="vid"><img src="https://img.youtube.com/vi/YGv2l3iUGLA/maxresdefault.jpg" alt="Raag Todi video thumbnail"></div>
+      <h4>Raag Todi</h4>
+    </a>
+    <a class="card video-card" href="https://youtu.be/iQW-ObjkIwA" target="_blank" rel="noopener noreferrer">
+      <div class="vid"><img src="Megh%20Malhar%20Image.png" alt="Raag Megh Malhar video thumbnail"></div>
+      <h4>Raag Megh Malhar</h4>
+    </a>
+    <a class="card video-card" href="https://youtu.be/NgZSV09SOLM" target="_blank" rel="noopener noreferrer">
+      <div class="vid"><img src="https://img.youtube.com/vi/NgZSV09SOLM/maxresdefault.jpg" alt="Kabir Bhajan video thumbnail"></div>
+      <h4>Kabir Bhajan</h4>
+    </a>
+  </div>
+`,
+
+note: () => `
+  <p class="eyebrow">Personal note</p>
+  <h2>On music &amp; its potential future</h2>
+  <p class="lead">Why I make music, and where I think it is headed.</p>
+  <p>This is where your note lives. A few paragraphs in your own voice work best: what music means to you, what training and technology have taught you, and what you believe the next decade of music could look like.</p>
+  <p>You could structure it as a short essay with a pull quote, or as three small sections (Past, Present, Future) with a signature at the end.</p>
+  <p class="note">Placeholder text — replace with your own note.</p>`,
+
+computational: () => `
+  <div class="tool-cards">
+    <article class="tool-card">
+      <div class="card-media" id="taan-card-media">
+        <img src="Taan%20generator.png" alt="Taan Generator interface preview">
+      </div>
+      <div class="tool-card-content">
+        <h2><a href="https://this-is-snp.github.io/Taan-Generator/" target="_blank" rel="noopener noreferrer" class="card-title-link">Taan Generator</a></h2>
+        <p>Generates structured Hindustani taan variations by applying permutations and combinations to user-provided swar phrases.</p>
+      </div>
+    </article>
+    <article class="tool-card">
+      <div class="card-media" id="swar-lekhan-card-media">
+        <img src="SwarLekhan.png" alt="Swar Lekhan interface preview">
+      </div>
+      <div class="tool-card-content">
+        <h2><a href="https://swar-lekhan.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-title-link">Swar Lekhan</a></h2>
+        <p>Professional Hindustani Classical notation at your fingertips.</p>
+      </div>
+    </article>
+    <article class="tool-card">
+      <div class="card-media" id="swarlipi-card-media">
+        <img src="Swarlipi.png" alt="SwarLipi interface preview">
+      </div>
+      <div class="tool-card-content">
+        <h2><a href="https://swar-lekhan-58qu.vercel.app/" target="_blank" rel="noopener noreferrer" class="card-title-link">SwarLipi</a></h2>
+        <p>Professional Hindustani Classical Music Notation Editor (the workhorse version)</p>
+      </div>
+    </article>
+    <article class="tool-card">
+      <div class="card-media" id="research-paper-card-media">
+        <img src="Research%20Paper.png" alt="Research Paper preview">
+      </div>
+      <div class="tool-card-content">
+        <h2><a href="https://docs.google.com/document/d/1Qd9NkdH08ccCJKjkyGpUaPSuuFyH5YSpImb19LKvFpM/edit?usp=sharing" target="_blank" rel="noopener noreferrer" class="card-title-link">Research Paper</a></h2>
+        <p>A new perspective on Hindustani Classical music, its current state, and where its going</p>
+      </div>
+    </article>
+    <article class="tool-card">
+      <div class="card-media" id="laykari-taal-card-media">
+        <img src="Layakari%20Taal%20Congruence.png" alt="Laykari-Taal Congruence interface preview">
+      </div>
+      <div class="tool-card-content">
+        <h2><a href="https://this-is-snp.github.io/Layakari-Taal-Congruence/" target="_blank" rel="noopener noreferrer" class="card-title-link">Laykari-Taal Congruence</a></h2>
+        <p>Mathematical formula and interactive calculator for calculating target beats across taals and scaling factors.</p>
+      </div>
+    </article>
+    <article class="tool-card">
+      <div class="card-media" id="chhand-generator-card-media">
+        <img src="Chhand%20Generator.png" alt="Chhand Generator interface preview">
+      </div>
+      <div class="tool-card-content">
+        <h2><a href="https://github.com/This-is-SnP/Chhand-Generator/settings/pages" target="_blank" rel="noopener noreferrer" class="card-title-link">Chhand Generator</a></h2>
+        <p>Generating Chhands by typing in patterns</p>
+      </div>
+    </article>
+  </div>`,
+
+artist: () => `
+  <p class="eyebrow">Artist</p>
+  <h2 style="display:flex;align-items:center;gap:.6rem">The Serenadic Souls
+    <svg width="28" height="28" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3" fill="#e8a33d"/><rect x="4" y="4" width="16" height="16" rx="3" fill="#e8a33d" transform="rotate(45 12 12)"/><path d="M8 12.4l2.7 2.6L16 9.6" fill="none" stroke="#1a1208" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </h2>
+  <p class="lead">SnP: Sing it Feel it Share it</p>
+  <div class="grid">
+    <a class="card" href="https://open.spotify.com/artist/6gAXGZr1uMxtdTs2AmFkGK" target="_blank" rel="noopener noreferrer"><h4>Spotify</h4><small>Listen to releases</small></a>
+    <a class="card" href="https://www.instagram.com/this_is__snp/" target="_blank" rel="noopener noreferrer"><h4>Instagram</h4><small>Updates &amp; behind the scenes</small></a>
+    <a class="card" href="https://audiomack.com/musicshreynandanprasad3" target="_blank" rel="noopener noreferrer"><h4>Side artist profile</h4><small>Audiomack</small></a>
+  </div>
+  <h3 class="sec">Production pipelines (prompts)</h3>
+  <p class="lead" style="margin-bottom:.6rem">How a track goes from idea to master. Tap a stage to see the prompt.</p>
+  <details open><summary>Role &amp; Context</summary>
+    <div class="pipeline-scroll-box">
+      <p><strong>SYSTEM PROMPT: EDM Co-Producer for Human-AI Collaboration</strong></p>
+      <p>📌 Context: You are an AI Music Production Assistant designed to collaborate with an 18-year-old narrative electronic artist developing a unique artistic identity through the fusion of Eastern and Western musical systems. The artist creates cinematic electronic music designed to immerse listeners inside emotional and visual experiences rather than optimize for festival performance. Your role is not to create music for them—but to collaborate as a smart, helpful co-producer who can assist with structuring, layering, sound design, and arrangement based on their inputs. They may share MIDI screenshots, audio stems, rough tracks, or describe ideas. You help them develop and finish music using their vision and tools.</p>
+      <p>🧠 Your Role (AI): Be a flexible, genre-aware collaborator—not a rigid generator. You will: Ask questions to clarify intent, structure, and emotion; Suggest layers, rhythms, harmonies, and sound design; Guide arrangement, automation, transitions, and FX; Support Eastern/Western blends and genre fusion; Encourage experimentation while anchoring emotional flow; Recommend free plugins and tools based on their DAW; Interpret shared MIDI, stems, or screenshots and suggest improvements; Suggest which EDM subgenre the track or section might fit in based on its vibe, structure, and elements; Always be open to iterations: “Want a variation of that arp?” “Should we soften that snare?” Keep the vibe casual and friendly—you’re a co-creator, not a teacher.</p>
+    </div>
+  </details>
+  <details><summary>Role of Human</summary>
+    <div class="pipeline-scroll-box">
+      <p>🎧 Their Role (Human Producer) They will:</p>
+      <p>• Provide core creative ideas (melody, bassline, chords, vibe)<br>
+      • Guide musical direction, emotion, and transitions<br>
+      • Share screenshots (MIDI, piano roll, plugin settings, mixer view) or raw audio/stems<br>
+      • Inform you about their DAW, plugin setup, or limitations<br>
+      • Choose which section to work on and when (e.g., “Let’s jump to Drop 2”)<br>
+      • Ask for tweaks, alternate takes, or help when stuck</p>
+    </div>
+  </details>
+  <details><summary>Phase 1</summary>
+    <div class="pipeline-scroll-box">
+      <p>🟩 PHASE 1: Setup &amp; Calibration</p>
+      <p>You begin by asking:<br>
+      • Would you like me to help classify your track into an EDM subgenre?<br>
+      • What’s the tempo and key/scale?<br>
+      • What DAW are you using?<br>
+      • Which free plugins do you already have? Would you like help finding other free tools?<br>
+      • What part of the song would you like to start with?</p>
+      <p>Encourage sharing: “Feel free to send a MIDI screenshot or rough audio—I’ll help analyze it.”</p>
+      <p>💡 If they don’t have a clear idea, offer:<br>
+      • Melody/arpeggio starters<br>
+      • Drum groove ideas<br>
+      • Emotional vibe directions<br>
+      • Chord progressions<br>
+      • Artist-style references</p>
+    </div>
+  </details>
+  <details><summary>Phase 2</summary>
+    <div class="pipeline-scroll-box">
+      <p>🟨 PHASE 2: Co-Production (Section by Section)</p>
+      <p>Once a section is chosen, you:<br>
+      Analyze input → Then suggest:<br>
+      • 🥁 Drum layers &amp; groove ideas<br>
+      • 🎹 Chords &amp; harmonic support<br>
+      • 🎶 Counter melodies / arps<br>
+      • 🔊 Sound design directions<br>
+      • 🌀 Automation ideas<br>
+      • 🎧 FX layers</p>
+      <p>Ask often:<br>
+      “Want to try a variation?”<br>
+      “Should we layer this?”<br>
+      “Want to zoom out and check structure?”</p>
+      <p>Encourage visuals/audio sharing for deeper feedback.</p>
+    </div>
+  </details>
+  <details><summary>Phase 3</summary>
+    <div class="pipeline-scroll-box">
+      <p>🟥 PHASE 3: Finalization (Mixing + Mastering)</p>
+      <p>🔄 Full Production → Mix → Master Workflow</p>
+      <p>1. 🎨 Production Polish (Creative Stage)<br>
+      • Finish sound design and musical ideas<br>
+      • Apply creative FX (reverb, delay, modulation, etc.)<br>
+      • Make elements expressive and musical<br>
+      • Light corrective EQ allowed if something is clearly problematic</p>
+      <p>2. 📦 Export Stems → Import to Mix Project<br>
+      • Export stems as WAV (24-bit recommended)<br>
+      • Leave headroom (~ -6 dB peaks)<br>
+      • Import into a clean mixing/master prep project</p>
+      <p>3. 🧠 Mix Project (Correction + Balance Stage)<br>
+      Apply the structured workflow: 🎯 The 4-Step Stem Workflow (STRICT ORDER)<br>
+      • X-Ray (Analysis): Use PAZ Analyzer to identify frequency peaks, mud, harshness, stereo issues<br>
+      • Blueprint (Assignment): Decide what conflicts with the vocal &amp; assign actions (cut, keep, rebalance)<br>
+      • Construction (Shaping): Apply EQ carving &amp; compression if needed (⚠️ NO creative FX here)<br>
+      • Personality (Minimal Enhancement Only): Subtle enhancements only if they do NOT reintroduce masking</p>
+      <p>4. 📤 Export Clean Mix (Pre-Master)<br>
+      • Balanced, clean, vocal space preserved<br>
+      • Export as WAV</p>
+      <p>5. ✨ Final Master Project (Polish Stage)<br>
+      • Import pre-master into new project<br>
+      • Apply: Gentle EQ (broad shaping), light saturation, stereo enhancement, limiter<br>
+      • 🎯 Goal: Glue, loudness, final shine (DO NOT fix mix issues here)</p>
+    </div>
+  </details>
+  <details><summary>The Finishing Touch</summary>
+    <div class="pipeline-scroll-box">
+      <p>📦 Export &amp; Delivery Tips<br>
+      • WAV for final export, MP3 for quick sharing<br>
+      • Target ~ -14 LUFS for streaming platforms<br>
+      • Keep organized stems<br>
+      • Use structured version naming: TrackName_v2_Mixdown.wav</p>
+      <p>🔁 General Guidelines<br>
+      • Be genre-aware but flexible<br>
+      • Always build from user input<br>
+      • Stay within free tools ecosystem<br>
+      • Avoid over-complication<br>
+      • Support iteration and experimentation<br>
+      • Teach through collaboration, not instruction</p>
+      <p>✅ Activation<br>
+      Wait for the user to say: “Let’s start Phase 1” or “I’m ready”</p>
+    </div>
+  </details>
+`
+};
+
+/* ---------- open / close ---------- */
+function openView(key){
+  mbody.innerHTML=VIEWS[key]();
+  modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  $('.panel').scrollTop=0;
+}
+function closeView(){
+  modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+  document.body.style.overflow=''; mbody.innerHTML='';
+}
+document.querySelectorAll('[data-open]').forEach(el=>{
+  el.addEventListener('click',e=>{ if(e.target.closest('a')) return; openView(el.dataset.open); });
+  el.addEventListener('keydown',e=>{ if(e.target.closest('a')) return; if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openView(el.dataset.open); }});
+});
+$('#close').onclick=closeView;
+modal.addEventListener('click',e=>{ if(e.target===modal) closeView(); });
+addEventListener('keydown',e=>{ if(e.key==='Escape') closeView(); });
+</script>
+</body>
+</html>
